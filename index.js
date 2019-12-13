@@ -8,7 +8,7 @@ const app = require('./app'); // Vamos a importar la lógica de Express
 const port = 4000; // Declaramos el puerto que deseemos
 
 // Le especificamos la BD a la cual nos queremos conectar
-mongoose.connect('mongodb://localhost:27017/bitmusicAM', { useFindAndModify: false },  (err, res)=>{
+mongoose.connect('mongodb://localhost:27017/Atenea', { useFindAndModify: false },  (err, res)=>{
     if(err){
         console.log('El error es: ' + err);
     }else{

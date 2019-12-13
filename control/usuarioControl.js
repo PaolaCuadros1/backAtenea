@@ -116,7 +116,7 @@ function subirImg(req, res){
         var rutaArchivo = req.files.imagen.path;
 
         // C:\\usuario\imagenes\miarchivo.jpg -- archivos\\usuarios\miImagen.jpg
-        var partirArchivo = rutaArchivo.split('/'); // - Ctrl + alt + ? / alt gr + |
+        var partirArchivo = rutaArchivo.split('\\'); // - Ctrl + alt + ? / alt gr + |
         // split - generar un arreglo = ['http', 'midominio', ...]
         console.log(partirArchivo);
 
@@ -139,7 +139,7 @@ function subirImg(req, res){
                     });
                 }else{
                     if(!usuarioActualizado){
-                        res.status(404).send({
+                        res.status(200).send({
                             message: "No fue posible actualizar los datos de la imagen"
                         });
                     }else{
