@@ -6,6 +6,7 @@ var UsuarioSchema = new Schema({
     apellido: String,
     correo: String,
     contrasena: String,
+    generos: [],
     rol: String,
     imagen: String
 });
