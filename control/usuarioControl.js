@@ -21,6 +21,7 @@ function crearUsuario(req, res){
     usuario.apellido = parametros.apellido;
     usuario.correo = parametros.correo;
     usuario.contrasena = parametros.contrasena;
+    usuario.generos = parametros.generos;
     usuario.rol = 'usuario';
     usuario.imagen = null;
 
