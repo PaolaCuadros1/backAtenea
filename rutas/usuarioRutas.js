@@ -40,7 +40,7 @@ api.post('/subir-imagen-usuario/:id', subirImgDirectorio, UsuarioControl.subirIm
 api.get('/obtener-imagen-usuario/:imageFile', UsuarioControl.mostrarArchivo);
 
 
-//api.post('/saveMovie', MovieControl.createMovie);
+api.post('/saveMovie', MovieControl.createMovie);
 api.get('/getMoviByGender/:gender', MovieControl.searchMovieByGender);
 api.get('/getAllMovies', MovieControl.getAllMovies);
 api.delete('/removeMovie/:id', MovieControl.removeMovie);

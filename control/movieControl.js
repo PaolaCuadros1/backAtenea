@@ -47,8 +47,36 @@ function removeMovie(req, res) {
   });
 }
 
+function createMovie(req, res) {
+  var movie = new Movie();
+  var parametros = req.body;
+  movie.name = parametros.name;
+  movie.duration = parametros.duration;
+  movie.image = parametros.image;
+  movie.gender = parametros.gender;
+  movie.url = parametros.url;
+
+  movie.save((err, usuarioCreado) => {
+    if (err) {
+      res.status(500).send({
+        message: "Error en el servidor :´("
+      });
+    } else {
+      if (!usuarioCreado) {
+        res.status(404).send({
+          message: "No se pudo crear el usuario"
+        });
+      } else {
+        res.status(200).send({
+          usuario: usuarioCreado
+        });
+      }
+    }
+  });
+}
+
 module.exports = {
-  //createMovie,
+  createMovie,
   searchMovieByGender,
   getAllMovies,
   removeMovie
