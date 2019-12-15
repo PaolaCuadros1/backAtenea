@@ -6,6 +6,7 @@
 */
 const express = require('express');
 const UsuarioControl = require('../control/usuarioControl');
+const MovieControl = require('../control/movieControl');
 
 var api = express.Router(); // cargamos el manejador de rutas de Express
 
@@ -37,6 +38,12 @@ api.put('/actualizar-usuario/:id', UsuarioControl.actualizarUsuario);
 api.post('/subir-imagen-usuario/:id', subirImgDirectorio, UsuarioControl.subirImg);
 // ruta para mostrar el archivo
 api.get('/obtener-imagen-usuario/:imageFile', UsuarioControl.mostrarArchivo);
+
+
+//api.post('/saveMovie', MovieControl.createMovie);
+api.get('/getMoviByGender/:gender', MovieControl.searchMovieByGender);
+api.get('/getAllMovies', MovieControl.getAllMovies);
+api.delete('/removeMovie/:id', MovieControl.removeMovie);
 
 
 module.exports = api ; // 
