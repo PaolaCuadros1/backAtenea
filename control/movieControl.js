@@ -2,7 +2,6 @@ const Movie = require('../modelo/movie');
 
 function searchMovieByGender(req, res) {
  console.log(req.params.gender)
-  //Movie.find({ gender: "Romance" }, function (err, data) {
   Movie.find({ gender: req.params.gender }, function (err, data) {
     if (err) {
       res.status(500).send({ message: "Error en la petición" });
