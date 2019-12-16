@@ -23,7 +23,7 @@ var api = express.Router(); // cargamos el manejador de rutas de Express
 var multipart = require('connect-multiparty');
 // NUEVA LÍNEA
 // Especificaremos la ruta donde se van a guardar los archivos
-var subirImgDirectorio = multipart( {uploadDir: './archivos/usuarios'} ); // Upload Directory
+var subirImgDirectorio = multipart({ uploadDir: './archivos/usuarios' }); // Upload Directory
 
 
 // Por cada función que vayamos a crear debe existir una ruta
@@ -46,10 +46,8 @@ api.get('/getAllMovies', MovieControl.getAllMovies);
 api.delete('/removeMovie/:id', MovieControl.removeMovie);
 
 
-module.exports = api ; // 
+module.exports = api; // 
 // MVW -> Modelo Vista Cualquiera / Model View Whatever (modelo, vista rutas)
 // aplicaciones menos robustas
 
 // MVC aplicaciones más robustas
-
-
