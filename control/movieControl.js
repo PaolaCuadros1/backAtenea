@@ -1,13 +1,14 @@
 const Movie = require('../modelo/movie');
 
 function searchMovieByGender(req, res) {
-
-  Movie.find({ gender: "Romance" }, function (err, data) {
+ console.log(req.params.gender)
+  //Movie.find({ gender: "Romance" }, function (err, data) {
+  Movie.find({ gender: req.params.gender }, function (err, data) {
     if (err) {
       res.status(500).send({ message: "Error en la petición" });
     } else {
       if (data.length == 0) {
-        res.status(200).send({ message: "No existen artistas" });
+        res.status(200).send({ message: "No existen películas jajajaa" });
       } else {
         return res.status(200).send({
           data: data
