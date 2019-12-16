@@ -1,20 +1,20 @@
 const Movie = require('../modelo/movie');
 
 function searchMovieByGender(req, res) {
-
-    Movie.find({ gender: "Romance" }, function(err, data) {
-        if (err) {
-            res.status(500).send({ message: "Error en la petición" });
-        } else {
-            if (data.length == 0) {
-                res.status(200).send({ message: "No existen artistas" });
-            } else {
-                return res.status(200).send({
-                    data: data
-                });
-            }
-        }
-    });
+ console.log(req.params.gender)
+  Movie.find({ gender: req.params.gender }, function (err, data) {
+    if (err) {
+      res.status(500).send({ message: "Error en la petición" });
+    } else {
+      if (data.length == 0) {
+        res.status(200).send({ message: "No existen películas jajajaa" });
+      } else {
+        return res.status(200).send({
+          data: data
+        });
+      }
+    }
+  });
 }
 
 function getAllMovies(req, res) {
