@@ -41,13 +41,13 @@ api.get('/obtener-imagen-usuario/:imageFile', UsuarioControl.mostrarArchivo);
 
 
 api.post('/saveMovie', MovieControl.createMovie);
-api.get('/getMoviByGender/:gender', MovieControl.searchMovieByGender);
+api.get('/getMovieByGender/:gender', MovieControl.searchMovieByGender);
 api.get('/getAllMovies', MovieControl.getAllMovies);
 api.delete('/removeMovie/:id', MovieControl.removeMovie);
 api.get('/movie/:id', MovieControl.getMovie);
 
 
-module.exports = api; // 
+module.exports = api; 
 // MVW -> Modelo Vista Cualquiera / Model View Whatever (modelo, vista rutas)
 // aplicaciones menos robustas
 
