@@ -17,13 +17,29 @@ function searchMovieByGender(req, res) {
   });
 }
 
+function getMovie(req, res) {
+    Movie.findById(req.params.id, function(err, data) {
+        if (err) {
+            res.status(500).send({ message: "Error en la petición" });
+        } else {
+            if (data.length == 0) {
+                res.status(200).send({ message: "No se encontró la pelicula" });
+            } else {
+                return res.status(200).send({
+                    data: data
+                });
+            }
+        }
+    });
+}
+
 function getAllMovies(req, res) {
     Movie.find({}, function(err, data) {
         if (err) {
             res.status(500).send({ message: "Error en la petición" });
         } else {
             if (data.length == 0) {
-                res.status(200).send({ message: "No existen artistas" });
+                res.status(200).send({ message: "No existen peliculas" });
             } else {
                 return res.status(200).send({
                     data: data
@@ -89,5 +105,6 @@ module.exports = {
     createMovie,
     searchMovieByGender,
     getAllMovies,
-    removeMovie
+    removeMovie,
+    getMovie
 }
