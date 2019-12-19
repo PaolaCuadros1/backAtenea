@@ -237,11 +237,14 @@ function checkIfIsFavorite(req, res) {
     const idUsuario = req.params.idUsuario;
     const idPelicula = req.params.idPelicula;
 
+    console.log("idUsuario", idUsuario)
+    console.log("idPelicula", idPelicula)
+
     Usuario.find({
-        _id: idUsuario,
-        'favoriteMovies': { $elemMatch: { $eq: idPelicula } }
+        _id: idUsuario
     }, function(err, usuarios) {
-        if (err === null && typeof usuarios === 'object' && usuarios.length > 0) {
+        usuarios[0].favoriteMovies.indexOf(idPelicula)
+        if (usuarios[0].favoriteMovies.indexOf(idPelicula) >= 0) {
             res.status(200).send({
                 message: 'Si es una de tus favoritas!'
             });
@@ -264,8 +267,8 @@ function favorites(req, res) {
             console.log('usuario.favoriteMovies ', usuario.favoriteMovies);
 
             Movie.find({
-                // _id: { $in: usuario.favoriteMovies }
-                _id: { $in: ["5df943d9609d3b3f2801dea1"] }
+                 _id: { $in: usuario.favoriteMovies }
+                //_id: { $in: ["5df943d9609d3b3f2801dea1"] }
             }, function(err, peliculas) {
                 console.log('err ', err);
                 console.log('peliculas ', peliculas);

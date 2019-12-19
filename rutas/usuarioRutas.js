@@ -7,7 +7,6 @@
 const express = require('express');
 const UsuarioControl = require('../control/usuarioControl');
 const MovieControl = require('../control/movieControl');
-const FavoriteListControl = require('../control/favoriteListControl');
 
 var api = express.Router(); // cargamos el manejador de rutas de Express
 
