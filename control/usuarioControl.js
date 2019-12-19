@@ -1,11 +1,14 @@
 // Importando el modelo usuario para interactuar con el
 const Usuario = require('../modelo/usuario');
+const Movie = require('../modelo/movie');
 // Módulo File System -> 32 / módulo del núcleo de Node
 // Nos permite leer archivos externos como los pueden ser css, html, js, img, música, documentos, etc
 const fs = require('fs'); // NUEVA LÍNEA
 
 // Módulo path -> Nos permite analizar y evaluar la ruta de un archivo
 const path = require('path'); // NUEVA LÍNEA
+
+const mongoose = require('mongoose');
 
 // req - request - peticion / res - response - respuesta
 function crearUsuario(req, res) {
@@ -55,7 +58,9 @@ function login(req, res) {
     var contraUsuario = parametros.contrasena;
 
     // Buscamos al usuario a través del correo. Usamos toLowerCase() para evitar problemas de datos
-    Usuario.findOne({ correo: correoUsuario.toLowerCase() }, (err, usuarioLogueado) => {
+    Usuario.findOne({
+        correo: correoUsuario.toLowerCase()
+    }, (err, usuarioLogueado) => {
         if (err) {
             res.status(500).send({
                 message: "Error en el servidor!!"
@@ -113,13 +118,15 @@ function subirImg(req, res) {
         var rutaArchivo = req.files.imagen.path;
 
         var partirArchivo = rutaArchivo.split('\\');
-        if (partirArchivo.length === 1){
+        if (partirArchivo.length === 1) {
             var partirArchivo = rutaArchivo.split('/');
         }
 
         var nombreArchivo = partirArchivo[2];
 
-        Usuario.findByIdAndUpdate(usuarioId, { imagen: nombreArchivo }, (err, usuarioActualizado) => {
+        Usuario.findByIdAndUpdate(usuarioId, {
+            imagen: nombreArchivo
+        }, (err, usuarioActualizado) => {
             if (err) {
                 res.status(500).send({
                     message: "Error en el servidor"
@@ -176,13 +183,114 @@ function mostrarArchivo(req, res) {
     });
 }
 
+function addToFavorites(req, res) {
+    const idUsuario = req.params.idUsuario;
+    const idPelicula = req.params.idPelicula;
+
+    if (idUsuario && idPelicula) {
+
+        Usuario.findById(idUsuario, function (err, usuario) {
+            if (err === null && usuario) {
+                const _idPelicula = mongoose.Types.ObjectId(idPelicula);
+                if (usuario.favoriteMovies === undefined || typeof usuario.favoriteMovies !== 'object') {
+                    usuario.favoriteMovies = [_idPelicula];
+                } else {
+                    usuario.favoriteMovies.push(_idPelicula);
+                }
+
+                usuario.save((r) => {
+                    res.status(200).send({
+                        message: 'Agregada!'
+                    });
+                });
+            }
+        });
+    }
+}
+
+function removeFromFavorites(req, res) {
+    const idUsuario = req.params.idUsuario;
+    const idPelicula = req.params.idPelicula;
+
+    if (idUsuario && idPelicula) {
+
+        Usuario.findById(idUsuario, function (err, usuario) {
+            if (err === null && usuario) {
+                if (typeof usuario.favoriteMovies === 'object' && usuario.favoriteMovies.length > 0) {
+                    const favoriteIndex = usuario.favoriteMovies.indexOf(idPelicula);
+                    if (favoriteIndex >= 0) {
+                        usuario.favoriteMovies.splice(favoriteIndex, 1);
+                    }
+                }
+
+                usuario.save((a) => {
+                    res.status(200).send({
+                        message: 'Removida!'
+                    });
+                });
+            }
+        });
+    }
+}
+
+function checkIfIsFavorite(req, res) {
+    const idUsuario = req.params.idUsuario;
+    const idPelicula = req.params.idPelicula;
+
+    Usuario.find({
+        _id: idUsuario,
+        'favoriteMovies': { $elemMatch: { $eq: idPelicula } }
+    }, function(err, usuarios) {
+        if (err === null && typeof usuarios === 'object' && usuarios.length > 0) {
+            res.status(200).send({
+                message: 'Si es una de tus favoritas!'
+            });
+        } else {
+            res.status(500).send({
+                message: 'No es favorita'
+            });
+        }
+    });
+
+}
+
+function favorites(req, res) {
+    const idUsuario = req.params.idUsuario;
+
+    Usuario.findById(idUsuario, function (err, usuario) {
+        if (err === null && typeof usuario === 'object' && Object.keys(usuario).length > 0) {
+
+            console.log('usuario ', usuario);
+            console.log('usuario.favoriteMovies ', usuario.favoriteMovies);
+
+            Movie.find({
+                // _id: { $in: usuario.favoriteMovies }
+                _id: { $in: ["5df943d9609d3b3f2801dea1"] }
+            }, function(err, peliculas) {
+                console.log('err ', err);
+                console.log('peliculas ', peliculas);
+                res.status(200).send({
+                    data: peliculas
+                });
+            });
+
+        } else {
+            res.status(500).send({
+                message: err
+            });
+        }
+    });
+
+}
 
 module.exports = {
+    addToFavorites,
+    checkIfIsFavorite,
+    removeFromFavorites,
+    favorites,
     crearUsuario,
     login,
     actualizarUsuario,
     subirImg,
     mostrarArchivo
 };
-
-
