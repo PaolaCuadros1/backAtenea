@@ -7,6 +7,7 @@
 const express = require('express');
 const UsuarioControl = require('../control/usuarioControl');
 const MovieControl = require('../control/movieControl');
+const FavoriteListControl = require('../control/favoriteListControl');
 
 var api = express.Router(); // cargamos el manejador de rutas de Express
 
@@ -45,6 +46,7 @@ api.get('/getMovieByGender/:gender', MovieControl.searchMovieByGender);
 api.get('/getAllMovies', MovieControl.getAllMovies);
 api.delete('/removeMovie/:id', MovieControl.removeMovie);
 api.get('/movie/:id', MovieControl.getMovie);
+api.get('/getFavoriteList/:id',FavoriteListControl.getFavoriteList);
 
 
 module.exports = api; 
