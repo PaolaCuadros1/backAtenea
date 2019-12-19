@@ -46,8 +46,11 @@ api.get('/getMovieByGender/:gender', MovieControl.searchMovieByGender);
 api.get('/getAllMovies', MovieControl.getAllMovies);
 api.delete('/removeMovie/:id', MovieControl.removeMovie);
 api.get('/movie/:id', MovieControl.getMovie);
-api.get('/getFavoriteList/:id',FavoriteListControl.getFavoriteList);
 
+api.post('/addToFavorites/:idPelicula/:idUsuario', UsuarioControl.addToFavorites);
+api.get('/checkIfMovieIsFavorite/:idPelicula/:idUsuario', UsuarioControl.checkIfIsFavorite);
+api.delete('/removeFromFavorites/:idPelicula/:idUsuario', UsuarioControl.removeFromFavorites);
+api.get('/favorites/:idUsuario', UsuarioControl.favorites);
 
 module.exports = api; 
 // MVW -> Modelo Vista Cualquiera / Model View Whatever (modelo, vista rutas)
